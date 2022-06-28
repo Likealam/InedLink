@@ -2,6 +2,7 @@ package com.InedLink.service.impl;
 
 import com.InedLink.api.model.Credentials;
 import com.InedLink.dto.CredentialsDto;
+import com.InedLink.exceptions.UserAlreadyExistsException;
 import com.InedLink.repository.CredentialsRepository;
 import com.InedLink.service.SignUpService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +23,7 @@ public class SignUpServiceImpl implements SignUpService {
     @Override
     public void signUp(Credentials credentials) {
         if(credentialsRepository.getCredentialsDtoByUsername(credentials.getUsername())!=null){
-            //throw new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException(credentials.getUsername());
         }
         CredentialsDto credentialsDto = new CredentialsDto();
         credentialsDto.setUsername(credentials.getUsername());
